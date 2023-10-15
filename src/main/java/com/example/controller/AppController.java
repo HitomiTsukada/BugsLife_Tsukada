@@ -110,6 +110,9 @@ public class AppController {
 	}
 
 	@DeleteMapping("/{id}")
+	// チュートリアル３ @{/apps/{id}/delete(id=${app.id})
+	// @DeleteMapping("@{/{id}/delete(id=${app.id})")
+
 	public String delete(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
 		try {
 			if (id != null) {
@@ -123,4 +126,5 @@ public class AppController {
 		}
 		return "redirect:/apps";
 	}
+
 }
