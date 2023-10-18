@@ -14,8 +14,21 @@
       th:object="${app}"
     >
       <input type="hidden" th:field="*{id}" />
-
+      
+      <!-- 課題４ -->
       <div class="form-group">
+        <label for="name">Name</label>
+        <input
+          id="name"
+          name="name"
+          type="text"
+          class="form-control"
+          th:field="*{name}"
+          style ='height: 40px; width: 800px;'
+        />
+      </div>
+     
+      <!-- <div class="form-group">
         <label for="name">Name</label>
         <input
           id="name"
@@ -25,7 +38,7 @@
           th:field="*{name}"
           style ='height: 200px; width: max-content;'
         />
-      </div>
+      </div> -->
 
       <!-- チュートリアル１ -->
       <div class="form-group">
@@ -36,11 +49,11 @@
           type="text"
           class="form-control"
           th:field="*{url}"
-          style ='height: 200px; width: max-content;'
+          style ='height: 40px; width: 800px;'
         />
       </div>
       
-      <div class="form-group">
+      <!-- <div class="form-group">
         <label for="description">Description</label>
         <input
           id="description"
@@ -48,19 +61,76 @@
           type="text"
           class="form-control"
           th:field="*{description}"
-          style ='height: 200px; width: max-content;'
+          style ='height: 200px; width: 800px;'
         />
-      </div>
+      </div> -->
+
+      <!-- 課題４ -->
       <div class="form-group">
+        <label for="description">Description</label>
+        <textarea
+          id="description"
+          name="description"
+          class="form-control"
+          th:field="*{description}"
+          style="height: 200px; width: 800px;"
+        ></textarea>
+      </div>
+
+      <!-- 課題４ -->
+
+
+
+      <style>
+        .form-group {
+          display: flex;
+          flex-direction: column;
+        }
+      
+        .form-group img {
+          margin: 0;
+          padding: 0;
+        }
+      </style>
+
+
+<div class="form-group">
+  <label for="image_file-lg">画像</label>
+  <input id="image_file" name="image_file" type="file" class="form-control-lg" />
+  <!-- 画像があれば縮小して表示 -->
+  <img
+    th:if="${app.image != null && app.image != ''}"
+    th:src="*{image}"
+    th:alt="最新の画像"
+    width="200"
+    height="200"
+  />
+  <input id="image" name="image" type="hidden" th:field="*{image}" />
+</div>
+
+<style>
+  .form-group {
+    max-width: 600px; 
+    max-height: 250px; 
+  }
+
+</style> 
+
+      
+
+
+
+      <!-- <div class="form-group">
+
         <label for="image_file-lg">Image</label>
         <input
           id="image_file"
           name="image_file"
           type="file"
           class="form-control-lg"
-        />
+        /> -->
         <!-- 画像があれば縮小して表示 -->
-        <img
+        <!-- <img
           th:if="${app.image != null && app.image != ''}"
           th:src="*{image}"
           th:alt="現在の画像"
@@ -68,7 +138,11 @@
           height="200"
         />
         <input id="image" name="image" type="hidden" th:field="*{image}" />
-      </div>
+      </div>  -->
+
+      
+
+
       <div class="form-group">
         <label for="developer">Developer</label>
         <input
@@ -77,7 +151,7 @@
           type="text"
           class="form-control"
           th:field="*{developer}"
-          style ='height: 200px; width: max-content;'
+          style ='height: 40px; width: 800px;'
         />
       </div>
       <div class="form-check">
