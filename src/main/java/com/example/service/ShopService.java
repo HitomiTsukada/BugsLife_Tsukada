@@ -20,8 +20,13 @@ public class ShopService {
 		return shopRepository.findAll();
 	}
 
-	public List<Shop> findAll(Shop probe) {
-		return shopRepository.findAll(Example.of(probe));
+	// 課題５
+	// public List<Shop> findAll(Shop probe) {
+	// return shopRepository.findAll(Example.of(probe));
+	// }
+
+	public List<Shop> findShopsWithPartialName(String partialName) {
+		return shopRepository.findShopsWithPartialName("%" + partialName + "%");
 	}
 
 	public Optional<Shop> findOne(Long id) {
