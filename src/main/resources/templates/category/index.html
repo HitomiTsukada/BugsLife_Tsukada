@@ -52,6 +52,7 @@
                     th:href="@{/categories/{id}/productRelation(id = ${category.id})}"
                     style="text-decoration: none;"
                   >商品設定</a>
+
                   <svg
                     th:title="'現在の紐付け商品:' + ${productNames}"
                     data-bs-toggle="tooltip" data-bs-placement="left"
@@ -61,6 +62,15 @@
                   </svg>
                 </div>
             </th:block>
+
+            <script>
+              // ページが読み込まれた後にツールチップを有効化
+              $(document).ready(function(){
+                  $('[data-bs-toggle="tooltip"]').tooltip();
+              });
+            </script>
+
+
             <form
               class="d-inline"
               th:action="@{/categories/{id}(id = ${category.id})}"
