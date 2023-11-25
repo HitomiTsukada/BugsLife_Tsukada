@@ -8,6 +8,8 @@
     <h1 th:if="${category.id == null}">カテゴリー登録</h1>
     <h1 th:if="${category.id != null}">カテゴリー編集</h1>
     <hr />
+    <!-- 課題９　保存時の遷移先修正 -->
+    <!-- th:action="@{/categories}" -->
     <form
       id="category-form"
       th:action="@{/categories}"
@@ -15,6 +17,8 @@
       th:object="${category}"
     >
       <input type="hidden" th:field="*{id}" />
+
+      
 
       <!-- <div class="form-group">
         <label for="code">コード</label>
