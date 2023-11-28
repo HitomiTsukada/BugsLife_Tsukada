@@ -4,6 +4,15 @@
   xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
   layout:decorate="~{layout/layout}"
 >
+
+<!-- 課題１１ -->
+<head>
+  <!-- Other head elements -->
+
+  <!-- Include jQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+</head>
+
   <th:block layout:fragment="content">
     <div id="success-message" class="alert alert-success" role="alert" style="display: none; position:absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);"></div>
     <div id="error-message" class="alert alert-danger" role="alert"  style="display: none; position:absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);"></div>
@@ -20,19 +29,86 @@
       <span th:text="${category.description}"></span>
     </div>
     <hr />
+
+   <!-- 課題１１ -->
     <div class="form-group">
+      <label for="products">紐付商品一覧: </label>
+      <div class="d-inline" th:each="product : ${products}">
+          <input class="form-check-input" type="checkbox" 
+           th:id="'checkbox-' + ${product.id}" th:value="${product.id}"
+           th:checked="${#lists.contains(2, 2)}" />
+          <label class="form-check-label" th:for="'checkbox-' + ${product.id}" th:text="${product.name}"></label>
+      </div>
+  </div>
+
+      <!-- 課題１１ -->
+    <!-- <div class="form-group">
       <label for="products">紐付商品一覧: </label>
       <div class="d-inline" th:each="product : ${products}">
         <input class="form-check-input" type="checkbox" th:id="'checkbox-' + ${product.id}" th:value="${product.id}" />
         <label class="form-check-label" th:for="'checkbox-' + ${product.id}" th:text="${product.name}"></label>
       </div>
-    </div>
+    </div> -->
+
+      <!-- 課題１１ -->
+  <script>
+    function updateCategoryProducts() {
+            // Retrieve category ID and convert to Long
+            var categoryIdString = document.getElementById("categoryId").getAttribute("val"); 
+            // data-th-val
+            console.log(categoryIdString); 
+            var categoryId = parseInt(categoryIdString, 10);  // 10は基数（10進数）
+
+            // Retrieve selected product IDs
+            var selectedProductIds = [];
+            var checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+            console.log(checkboxes); 
+            checkboxes.forEach(function (checkbox) {
+            selectedProductIds.push(parseInt(checkbox.value, 10));
+        });
+
+        // Make an AJAX request to the server
+        $.ajax({
+            type: "POST",
+            url: "/categories/" + categoryId + "/updateProductRelation",
+            contentType: "application/json;charset=UTF-8",
+            data: JSON.stringify(selectedProductIds),
+            success: function (response) {
+                // Handle success response
+                var successMessage = document.getElementById("success-message");
+                successMessage.innerHTML = response;
+                successMessage.style.display = "block";
+            },
+            error: function (error) {
+                // Handle error response
+                var errorMessage = document.getElementById("error-message");
+                errorMessage.innerHTML = "紐付更新中にエラーが発生しました";
+                errorMessage.style.display = "block";
+            }
+        });
+    }
+  </script>
+
+   <!-- 課題１１ -->
     <button id="update-button" class="btn btn-primary">紐付更新</button>
+
 
     <a class="btn btn-secondary" th:href="@{/categories}"
       >カテゴリー一覧</a
     >
     <br />
+
+      <!-- 課題１１ -->
+    <script>
+      document.getElementById("update-button").onclick = updateCategoryProducts;
+    </script>
+
+
   </th:block>
+
+
+
+
+
 </html>
-<script src="/js/category/category-product.js"></script>
+<!-- <script src="/js/category/category-product.js"></script> -->

@@ -8,7 +8,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.model.CategoryProduct;
+import com.example.model.Product;
 import com.example.repository.CategoryProductRepository;
+// import com.example.repository.CategoryProductRepository;
+import com.example.repository.ProductRepository;
 
 @Service
 @Transactional(readOnly = true)
@@ -39,4 +42,11 @@ public class CategoryProductService {
 	public List<CategoryProduct> findByProductId(Long productId) {
 		return categoryProductRepository.findByProductId(productId);
 	}
+
+	// 課題１１
+	// 対象のカテゴリIDに紐づくProductIdを取得
+	public List<CategoryProduct> findByCategoryId(Long categoryId) {
+		return categoryProductRepository.findByCategoryId(categoryId);
+	}
+
 }
