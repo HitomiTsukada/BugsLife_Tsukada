@@ -167,6 +167,9 @@ public class CategoryController {
 			} else {
 				model.addAttribute("action", false);
 			}
+
+			System.out.println("中身は、" + associatedProductIds);
+			System.out.println("中身は、" + listProduct);
 		}
 		return "category/productRelation";
 	}

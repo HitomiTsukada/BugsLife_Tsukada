@@ -31,15 +31,32 @@
     <hr />
 
    <!-- 課題１１ -->
-    <div class="form-group">
+    <!-- <div class="form-group">
       <label for="products">紐付商品一覧: </label>
       <div class="d-inline" th:each="product : ${products}">
           <input class="form-check-input" type="checkbox" 
            th:id="'checkbox-' + ${product.id}" th:value="${product.id}"
-           th:checked="${#lists.contains(2, 2)}" />
+           th:checked="${#lists.contains(associatedProductIds, product.id)}" />
           <label class="form-check-label" th:for="'checkbox-' + ${product.id}" th:text="${product.name}"></label>
+          <label class="form-check-label" th:for="'checkbox-' + ${product.id}" th:text="${product.id}"></label>
+          <label class="form-check-label" th:for="'checkbox-' + ${product.id}" th:text="${associatedProductIds}"></label>
       </div>
-  </div>
+  </div> -->
+
+  <div class="form-group">
+    <label for="products">紐付商品一覧: </label>
+    <div class="d-inline" th:each="productoo : ${associatedProductIds}">
+        <input class="form-check-input" type="checkbox" 
+         th:id="'checkbox-' + ${productoo.id}" th:value="${productoo.id}"
+         th:checked="${#lists.contains(associatedProductIds, productoo.id)}" />
+        <label class="form-check-label" th:for="'checkbox-' + ${productoo.id}" th:text="${productoo.productId}"></label>
+        <label class="form-check-label" th:for="'checkbox-' + ${productoo.id}" th:text="${associatedProductIds}"></label>
+    </div>
+</div>
+
+
+
+
 
       <!-- 課題１１ -->
     <!-- <div class="form-group">
