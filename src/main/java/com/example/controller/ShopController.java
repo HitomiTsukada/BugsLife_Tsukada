@@ -30,15 +30,35 @@ public class ShopController {
 	@Autowired
 	private ShopService shopService;
 
+	// @GetMapping
+	// public String index(Model model, @RequestParam(name = "name", required =
+	// false) Optional<String> name) {
+	// Shop probe = new Shop();
+	// if (name.isPresent()) {
+	// probe.setName(name.get());
+	// }
+	// List<Shop> shops = shopService.findAll(probe);
+	// model.addAttribute("listShop", shops);
+	// model.addAttribute("name", name.isPresent() ? name.get() : null);
+	// return "shop/index";
+	// }
+
 	@GetMapping
 	public String index(Model model, @RequestParam(name = "name", required = false) Optional<String> name) {
-		Shop probe = new Shop();
+		String partialName = name.orElse(""); // リクエストパラメータから部分一致検索のキーワードを取得
+
+		List<Shop> shops;
+
 		if (name.isPresent()) {
-			probe.setName(name.get());
+			shops = shopService.findShopsWithPartialName(partialName);
+		} else {
+			// リクエストパラメータが提供されなかった場合の処理を追加（全件表示など）
+			shops = shopService.findAll(); // または他の適切なデフォルトの処理
 		}
-		List<Shop> shops = shopService.findAll(probe);
+
 		model.addAttribute("listShop", shops);
-		model.addAttribute("name", name.isPresent() ? name.get() : null);
+		model.addAttribute("name", partialName.isEmpty() ? null : partialName); // 部分一致検索のキーワードを表示
+
 		return "shop/index";
 	}
 
