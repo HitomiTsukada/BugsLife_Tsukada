@@ -5,6 +5,8 @@ import java.util.Optional;
 
 import org.hibernate.service.spi.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,13 +17,18 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import java.util.Arrays;
 
 import com.example.constants.Message;
 import com.example.model.Category;
+import com.example.model.CategoryProduct;
 import com.example.service.CategoryService;
+// 課題１１
+import com.example.service.CategoryProductService;
 import com.example.model.Product;
 import com.example.service.ProductService;
 import com.example.utils.CheckUtil;
@@ -35,6 +42,10 @@ public class CategoryController {
 
 	@Autowired
 	private ProductService productService;
+
+	// 課題１１
+	@Autowired
+	private CategoryProductService categoryProductService;
 
 	@GetMapping
 	public String index(Model model) {
@@ -142,15 +153,40 @@ public class CategoryController {
 		if (id != null) {
 			List<Product> listProduct = productService.findAll();
 			Optional<Category> category = categoryService.findOne(id);
+			// 課題１１
+			// Retrieve the product IDs associated with the category
+			List<CategoryProduct> associatedProductIds = categoryProductService.findByCategoryId(id);
+
 			model.addAttribute("category", category.get());
 			model.addAttribute("products", listProduct);
+			// 課題１１
+			model.addAttribute("associatedProductIds", associatedProductIds);
 
 			if (q != null && (q.equals("create") || q.equals("update"))) {
 				model.addAttribute("action", true);
 			} else {
 				model.addAttribute("action", false);
 			}
+
+			System.out.println("中身は、" + associatedProductIds);
+			System.out.println("中身は、" + listProduct);
 		}
 		return "category/productRelation";
 	}
+
+	// 課題１１
+	@PostMapping("/{categoryId}/updateProductRelation")
+	public ResponseEntity<String> updateProductCategoryRelation(
+			@PathVariable Long categoryId,
+			@RequestBody List<Long> productIds) {
+
+		boolean success = categoryService.deleteInsertCategoryProduct(categoryId, productIds);
+
+		if (success) {
+			return new ResponseEntity<>("紐付更新が成功しました", HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>("紐付更新中にエラーが発生しました", HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
 }
