@@ -104,25 +104,44 @@ public class ProductService {
 		// }
 
 		// Weightで範囲検索
-		if (form.getWeight1() != null || form.getWeight2() != null) {
-			if (form.getWeight1() != null && form.getWeight2() != null) {
-				query.where(builder.between(root.get("weight"), form.getWeight1(), form.getWeight2()));
-			} else if (form.getWeight1() != null) {
-				query.where(builder.ge(root.get("weight"), form.getWeight1()));
-			} else if (form.getWeight2() != null) {
-				query.where(builder.le(root.get("weight"), form.getWeight2()));
-			}
+		// if (form.getWeight1() != null || form.getWeight2() != null) {
+		// if (form.getWeight1() != null && form.getWeight2() != null) {
+		// query.where(builder.between(root.get("weight"), form.getWeight1(),
+		// form.getWeight2()));
+		// } else if (form.getWeight1() != null) {
+		// query.where(builder.ge(root.get("weight"), form.getWeight1()));
+		// } else if (form.getWeight2() != null) {
+		// query.where(builder.le(root.get("weight"), form.getWeight2()));
+		// }
+		// }
+
+		// Weightで範囲検索
+		if (form.getWeight1() != null && form.getWeight2() != null) {
+			query.where(builder.between(root.get("weight"), form.getWeight1(), form.getWeight2()));
+		} else if (form.getWeight1() != null) {
+			query.where(builder.greaterThanOrEqualTo(root.get("weight"), form.getWeight1()));
+		} else if (form.getWeight2() != null) {
+			query.where(builder.lessThanOrEqualTo(root.get("weight"), form.getWeight2()));
 		}
 
 		// Heightで範囲検索
-		if (form.getHeight1() != null || form.getHeight2() != null) {
-			if (form.getHeight1() != null && form.getHeight2() != null) {
-				query.where(builder.between(root.get("height"), form.getHeight1(), form.getHeight2()));
-			} else if (form.getHeight1() != null) {
-				query.where(builder.ge(root.get("height"), form.getHeight1()));
-			} else if (form.getHeight2() != null) {
-				query.where(builder.le(root.get("height"), form.getHeight2()));
-			}
+		// if (form.getHeight1() != null || form.getHeight2() != null) {
+		// if (form.getHeight1() != null && form.getHeight2() != null) {
+		// query.where(builder.between(root.get("height"), form.getHeight1(),
+		// form.getHeight2()));
+		// } else if (form.getHeight1() != null) {
+		// query.where(builder.ge(root.get("height"), form.getHeight1()));
+		// } else if (form.getHeight2() != null) {
+		// query.where(builder.le(root.get("height"), form.getHeight2()));
+		// }
+		// }
+		// Heightで範囲検索
+		if (form.getHeight1() != null && form.getHeight2() != null) {
+			query.where(builder.between(root.get("height"), form.getHeight1(), form.getHeight2()));
+		} else if (form.getHeight1() != null) {
+			query.where(builder.greaterThanOrEqualTo(root.get("height"), form.getHeight1()));
+		} else if (form.getHeight2() != null) {
+			query.where(builder.lessThanOrEqualTo(root.get("height"), form.getHeight2()));
 		}
 
 		// price で範囲検索
