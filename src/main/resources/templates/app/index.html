@@ -27,8 +27,13 @@
           <td class="text-overflow">
             <a th:href="${app.url}" target="_blank" th:text="${app.url}"></a>
           </td>
-          <td class="for-tablet text-overflow" th:text="${app.description}"></td>
+
+              <!-- チュートリアル２ -->
+          <td class="for-tablet text-overflow" th:text="${app.description}" 
+          style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis"></td>     
           <td>
+
+
             <!-- 画像があれば縮小して表示 -->
             <img
               th:if="${app.image != null && app.image != ''}"
@@ -47,6 +52,22 @@
               th:href="@{/apps/{id}/edit(id = ${app.id})}"
             >Edit</a
             >
+
+          <!-- チュートリアル3 -->
+          <form
+            class="d-inline"
+            th:action="@{/apps/{id}(id = ${app.id})}"
+            th:method="delete"
+          >
+            <button class="btn btn-danger" type="submit">Destroy</button>
+          </form>
+
+
+
+
+
+
+
           </td>
           <td th:text="${app.active}"></td>
         </tr>

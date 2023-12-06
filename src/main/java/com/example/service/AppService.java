@@ -3,6 +3,7 @@ package com.example.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.example.model.App;
+import com.example.model.Campaign;
 import com.example.repository.AppRepository;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
@@ -28,6 +29,7 @@ public class AppService {
 		return appRepository.save(entity);
 	}
 
+	// 課題３
 	@Transactional(readOnly = false)
 	public void delete(App entity) {
 		appRepository.delete(entity);
