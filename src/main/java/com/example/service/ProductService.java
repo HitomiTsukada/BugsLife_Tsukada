@@ -15,6 +15,7 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.JoinType;
 import jakarta.persistence.criteria.Root;
 
 import com.example.entity.ProductWithCategoryName;
@@ -56,14 +57,20 @@ public class ProductService {
 		productRepository.delete(entity);
 	}
 
+	// 課題１３
 	// 指定された検索条件に一致するエンティティを検索する
 	public List<ProductWithCategoryName> search(Long shopId, ProductSearchForm form) {
 		final CriteriaBuilder builder = entityManager.getCriteriaBuilder();
 		final CriteriaQuery<ProductWithCategoryName> query = builder.createQuery(ProductWithCategoryName.class);
 		final Root<Product> root = query.from(Product.class);
 
-		Join<Product, CategoryProduct> categoryProductJoin = root.joinList("categoryProducts");
-		Join<CategoryProduct, Category> categoryJoin = categoryProductJoin.join("category");
+		// Join<Product, CategoryProduct> categoryProductJoin =
+		// root.joinList("categoryProducts");
+		// Join<CategoryProduct, Category> categoryJoin =
+		// categoryProductJoin.join("category");
+		// LEFT JOIN を使用して結合
+		Join<Product, CategoryProduct> categoryProductJoin = root.joinList("categoryProducts", JoinType.LEFT);
+		Join<CategoryProduct, Category> categoryJoin = categoryProductJoin.join("category", JoinType.LEFT);
 
 		query.multiselect(
 				root.get("id"),
@@ -71,7 +78,9 @@ public class ProductService {
 				root.get("name"),
 				root.get("weight"),
 				root.get("height"),
-				root.get("price"),
+				root.get("price")
+
+				,
 				categoryJoin.get("name").alias("categoryName")).where(builder.equal(root.get("shopId"), shopId));
 
 		// formの値を元に検索条件を設定する
